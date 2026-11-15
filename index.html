@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Demi & Benjamin Wedding</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #fff7f8;
+    color: #805866;
+    font-family: Georgia, serif;
+    text-align: center;
+}
+
+header {
+    padding: 35px 15px;
+    background: linear-gradient(135deg,#f7dce5,#fff7f8);
+    border-bottom: 1px solid #e8bdcb;
+}
+
+.small-title {
+    font-size: 10px;
+    letter-spacing: 4px;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin: 15px 0;
+}
+
+.date {
+    font-size: 12px;
+    letter-spacing: 3px;
+}
+
+.container {
+    max-width: 750px;
+    margin: auto;
+    padding: 25px 12px;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: normal;
+}
+
+.description {
+    font-size: 13px;
+    color: #ad8794;
+    line-height: 1.8;
+}
+
+input {
+    width: 100%;
+    max-width: 430px;
+    padding: 16px;
+    margin: 15px auto;
+    border: 1px solid #e5bdca;
+    border-radius: 6px;
+    font-size: 16px;
+    text-align: center;
+    background: white;
+}
+
+.search-button {
+    display: block;
+    width: 100%;
+    max-width: 430px;
+    margin: 10px auto 25px;
+    padding: 16px;
+    background: #d99bad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    letter-spacing: 2px;
+    font-size: 13px;
+}
+
+#result, #mapResult {
+    max-width: 430px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border: 1px solid #edcbd5;
+    border-radius: 8px;
+}
+
+#result:empty, #mapResult:empty {
+    display: none;
+}
+
+.table-number {
+    font-size: 36px;
+    color: #c77f96;
+    margin: 15px;
+}
+
+.map-heading {
+    margin-top: 45px;
+}
+
+.map {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    aspect-ratio: 1280 / 900;
+    margin: 25px auto;
+    background: #fff;
+    overflow: hidden;
+    border: 1px solid #e7c5cf;
+}
+
+/* 宴会厅范围 */
+
+.room {
+    position: absolute;
+    left: 3%;
+    top: 8%;
+    width: 94%;
+    height: 78%;
+    border: 1px solid #c9aab3;
+    background: #fffdfd;
+}
+
+/* 舞台 */
+
+.stage {
+    position: absolute;
+    left: 34%;
+    top: 9%;
+    width: 32%;
+    height: 13%;
+    background: #f6dce5;
+    border: 1px solid #d9aab9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    letter-spacing: 3px;
+}
+
+/* PA Desk */
+
+.pa {
+    position: absolute;
+    left: 12%;
+    top: 10%;
+    width: 17%;
+    height: 6%;
+    background: #f1d2dc;
+    border: 1px solid #d9aab9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+/* VIP */
+
+.table {
+    position: absolute;
+    width: clamp(27px, 6%, 40px);
+    aspect-ratio: 1;
+    transform: translate(-50%,-50%);
+    border: 1px solid #d49bab;
+    border-radius: 50%;
+    background: #fff0f4;
+    color: #956575;
+    font-size: clamp(9px, 2vw, 13px);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 3;
+}
+
+.table.active {
+    background: #cf8fa4;
+    color: white;
+    border: 2px solid #a9667e;
+    transform: translate(-50%,-50%) scale(1.2);
+}
+
+.vip {
+    width: clamp(48px, 9%, 65px);
+    background: #e9bdcb;
+    color: #704858;
+    font-size: 13px;
+    border: 2px solid #bd8196;
+}
+
+/* 红地毯 L 形 */
+
+.carpet-vertical {
+    position: absolute;
+    left: 48.7%;
+    top: 60%;
+    width: 4.8%;
+    height: 40%;
+    background: #c83d45;
+    z-index: 1;
+}
+
+.carpet-horizontal {
+    position: absolute;
+    left: 51%;
+    top: 94%;
+    width: 43%;
+    height: 5%;
+    background: #c83d45;
+    z-index: 1;
+}
+
+.lift {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 12%;
+    height: 13%;
+    background: #d9b2bf;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    z-index: 2;
+    border-radius: 8px 0 0 0;
+}
+
+footer {
+    padding: 30px 10px;
+    background: #f7dce5;
+    font-size: 11px;
+    letter-spacing: 3px;
+    line-height: 2;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="small-title">THE WEDDING RECEPTION</div>
+
+    <h1>Demi & Benjamin</h1>
+
+    <div class="date">19 DECEMBER 2026</div>
+</header>
+
+<div class="container">
+
+    <h2>Find Your Table</h2>
+
+    <p class="description">
+        Welcome to our wedding celebration.<br>
+        Enter your name to find your seat.
+    </p>
+
+    <input
+        id="guestName"
+        type="text"
+        placeholder="Enter your full name"
+        onkeydown="if(event.key==='Enter') searchGuest()"
+    >
+
+    <button class="search-button" onclick="searchGuest()">
+        SEARCH YOUR TABLE
+    </button>
+
+    <div id="result"></div>
+
+    <div class="map-heading">
+        <h2>Seating Plan</h2>
+        <p class="description">
+            Tap a table to view the guest list.
+        </p>
+    </div>
+
+    <div class="map">
+
+        <div class="room"></div>
+
+        <div class="stage">STAGE</div>
+
+        <div class="pa">PA DESK</div>
+
+        <div class="carpet-vertical"></div>
+        <div class="carpet-horizontal"></div>
+        <div class="lift">LIFT</div>
+
+        <button class="table vip"
+            id="table-VIP"
+            style="left:51%;top:52.5%;"
+            onclick="showTable('VIP')">
+            👑 VIP
+        </button>
+
+        <div id="tableContainer"></div>
+
+    </div>
+
+    <p class="description">
+        ♡ We are delighted to celebrate with you ♡
+    </p>
+
+    <div id="mapResult"></div>
+
+</div>
+
+<footer>
+    WITH LOVE<br>
+    DEMI & BENJAMIN<br>
+    19.12.2026
+</footer>
+
+<script>
+
+// 测试宾客名单
+// 之后会替换成真实名单
+
+const guests = [
+    {name:"Test Guest 1", table:"01"},
+    {name:"Test Guest 2", table:"01"},
+    {name:"Test Guest 3", table:"02"},
+    {name:"Test Guest 4", table:"02"},
+    {name:"VIP Guest 1", table:"VIP"},
+    {name:"VIP Guest 2", table:"VIP"}
+];
+
+// 26桌位置
+// 按照酒店平面图，从前往后排列
+
+const positions = {
+
+    // 第一排
+    "01":[84.5,13],
+
+    // 第二排
+    "02":[9,27],
+    "03":[20,27],
+    "04":[77,27],
+    "05":[90,27],
+
+    // 第三排
+    "06":[9,41],
+    "07":[20,41],
+    "08":[31,41],
+    "09":[41,41],
+    "10":[64,41],
+    "11":[77,41],
+    "12":[91,41],
+
+    // 第四排
+    "13":[9,57],
+    "14":[20,57],
+    "15":[31,57],
+    "16":[41,57],
+    "17":[65,57],
+    "18":[78,57],
+    "19":[91,57],
+
+    // 第五排
+    "20":[9,73],
+    "21":[20,73],
+    "22":[31,73],
+    "23":[41,73],
+    "24":[65,73],
+    "25":[78,73],
+    "26":[91,73]
+};
+
+// 自动建立桌子
+
+const container = document.getElementById("tableContainer");
+
+Object.keys(positions).forEach(number => {
+
+    const button = document.createElement("button");
+
+    button.className = "table";
+    button.id = "table-" + number;
+    button.textContent = number;
+
+    button.style.left = positions[number][0] + "%";
+    button.style.top = positions[number][1] + "%";
+
+    button.onclick = function() {
+        showTable(number);
+    };
+
+    container.appendChild(button);
+
+});
+
+// 搜索宾客
+
+function searchGuest() {
+
+    const name = document.getElementById("guestName").value.trim();
+
+    const result = document.getElementById("result");
+
+    if (!name) {
+        alert("Please enter your name.");
+        return;
+    }
+
+    const guest = guests.find(
+        g => g.name.toLowerCase() === name.toLowerCase()
+    );
+
+    if (!guest) {
+        result.innerHTML = "Sorry, we couldn't find your name.";
+        return;
+    }
+
+    const table = guest.table;
+
+    result.innerHTML = `
+        <p>WELCOME!</p>
+        <p>Your table is</p>
+
+        <div class="table-number">
+            ${table === "VIP" ? "👑 VIP" : table}
+        </div>
+
+        <button class="search-button"
+            onclick="showTable('${table}')">
+            VIEW TABLE GUESTS
+        </button>
+    `;
+
+    highlightTable(table);
+}
+
+// 查看同桌宾客
+
+function showTable(number) {
+
+    const members = guests.filter(
+        g => g.table === number
+    );
+
+    const title = number === "VIP"
+        ? "👑 VIP TABLE"
+        : "TABLE " + number;
+
+    document.getElementById("mapResult").innerHTML = `
+
+        <h2>${title}</h2>
+
+        <p class="description">
+            ${members.length} registered guests
+        </p>
+
+        <ul style="list-style:none;padding:0;line-height:2;">
+            ${
+                members.length
+                ? members.map(g => `<li>${g.name}</li>`).join("")
+                : "<li>Guest list not available yet.</li>"
+            }
+        </ul>
+    `;
+
+    highlightTable(number);
+}
+
+// 高亮桌子
+
+function highlightTable(number) {
+
+    document.querySelectorAll(".table").forEach(table => {
+        table.classList.remove("active");
+    });
+
+    document.getElementById("table-" + number)
+        .classList.add("active");
+
+}
+
+</script>
+
+</body>
+</html>
